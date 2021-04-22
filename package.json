@@ -1,0 +1,27 @@
+{
+  "name": "super_slime_climbers",
+  "version": "1.0.0",
+  "description": "'you're a slime that climbs'",
+  "main": "app.js",
+  "dependencies": {
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
+  },
+  "devDependencies": {
+    "file-loader": "^6.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SilentNN/Super-Slime-Climbers.git"
+  },
+  "author": "Lawrence Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SilentNN/Super-Slime-Climbers/issues"
+  },
+  "homepage": "https://github.com/SilentNN/Super-Slime-Climbers#readme"
+}
