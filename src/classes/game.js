@@ -7,8 +7,9 @@ class Game {
         this.steps = 0;
         this.highScore = 0;
         this.bgPos = 0;
-        this.score = document.getElementById('score');
         this.time = 10000;
+        this.gameOver = false;
+        this.score = document.getElementById('score');
         this.backgroundCanvas = backgroundCanvas;
         this.stairCanvas = stairCanvas;
         this.slimeCanvas = slimeCanvas;
@@ -17,6 +18,12 @@ class Game {
         this.slime = new Slime (slimeCanvas);
         this.stairs = [];
         this.binds = this.keybinds.bind(this);
+    }
+
+    step(timeDelta) {
+        this.drawBg();
+        this.drawStairs();
+        this.slime.draw();
     }
 
     drawBg() {
@@ -46,11 +53,6 @@ class Game {
         this.stairs.forEach(stair => {
             stair.render()
         })
-    }
-
-    drawSlime() {
-        this.slimeCtx.clearRect(0,0,this.slimeCanvas.width,this.slimeCanvas.height);
-        this.slime.draw();
     }
 
     generateStairs() {
@@ -139,34 +141,8 @@ class Game {
 
             this.updateScore();
         } else {
-            this.gameOver();
+            this.gameOver = true;
         }
-    }
-
-    gameOver() {
-        if (this.steps > this.highScore) this.highScore = this.steps;
-        this.unbindKeys();
-
-        const gameOverDiv = document.createElement('div');
-        gameOverDiv.setAttribute('id', 'game-over');
-        const scoreH3 = document.createElement('h3');
-        scoreH3.setAttribute('class', 'score');
-        const highScoreH3 = document.createElement('h3');
-        highScoreH3.setAttribute('class', 'high-score');
-
-        scoreH3.innerHTML = '<strong>Score: </strong>'.concat(this.steps);
-        highScoreH3.innerHTML = '<strong>High Score: </strong>'.concat(this.highScore);
-
-        const restartBtn = document.createElement('button');
-        restartBtn.setAttribute('id', 'restart');
-        restartBtn.innerHTML = 'Retry';
-
-        gameOverDiv.appendChild(scoreH3);
-        gameOverDiv.appendChild(highScoreH3);
-        gameOverDiv.appendChild(restartBtn);
-
-        document.body.appendChild(gameOverDiv);
-
     }
 
     keybinds(e) {
