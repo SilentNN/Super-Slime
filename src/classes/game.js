@@ -3,48 +3,49 @@ const Stair = require('./stairs');
 const bg = require('../assets/images/cityscape_2x.png');
 
 class Game {
-    constructor (backgroundCanvas, stairCanvas, slimeCanvas) {
+    constructor (bgCanvas, stairCanvas, slimeCanvas) {
         this.steps = 0;
-        this.highScore = 0;
         this.bgPos = 0;
         this.time = 10000;
         this.gameOver = false;
         this.score = document.getElementById('score');
-        this.backgroundCanvas = backgroundCanvas;
+        this.bgCanvas = bgCanvas;
         this.stairCanvas = stairCanvas;
         this.slimeCanvas = slimeCanvas;
         this.slimeCtx = this.slimeCanvas.getContext('2d');
         this.stairCtx = this.stairCanvas.getContext('2d');
         this.slime = new Slime (slimeCanvas);
-        this.stairs = [];
         this.binds = this.keybinds.bind(this);
+        
+        this.generateStairs();
     }
 
     step(timeDelta) {
         this.drawBg();
         this.drawStairs();
         this.slime.draw();
+        this.score.innerHTML = this.steps;
     }
 
     drawBg() {
         let img = new Image();
         img.src = bg.default;
-        let ctx = this.backgroundCanvas.getContext('2d');
+        let ctx = this.bgCanvas.getContext('2d');
 
-        // ctx.clearRect(0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
+        // ctx.clearRect(0, 0, this.bgCanvas.width, this.bgCanvas.height);
         let heightAdjustment = this.steps*8 - 8*8;
         if (heightAdjustment < 0) heightAdjustment = 0;
 
         ctx.drawImage(
             img,
-            (3840-this.backgroundCanvas.width)/2 + this.bgPos*15,
-            2154-this.backgroundCanvas.height-heightAdjustment,
-            this.backgroundCanvas.width,
-            this.backgroundCanvas.height,
+            (3840-this.bgCanvas.width)/2 + this.bgPos*15,
+            2154-this.bgCanvas.height-heightAdjustment,
+            this.bgCanvas.width,
+            this.bgCanvas.height,
             0,
             0,
-            this.backgroundCanvas.width,
-            this.backgroundCanvas.height
+            this.bgCanvas.width,
+            this.bgCanvas.height
         )
     }
 
@@ -56,6 +57,8 @@ class Game {
     }
 
     generateStairs() {
+        this.stairs = [];
+
         let pos = -2;
         let height = 1;
 
@@ -93,10 +96,6 @@ class Game {
             pos: nextPos,
             height: nextHeight
         }))
-    }
-
-    updateScore() {
-        this.score.innerHTML = this.steps;
     }
 
     move() {
@@ -138,8 +137,7 @@ class Game {
             else this.bgPos++;
 
             if (nextStep === 8) this.addNewStair();
-
-            this.updateScore();
+            
         } else {
             this.gameOver = true;
         }
