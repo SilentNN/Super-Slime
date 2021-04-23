@@ -10,4 +10,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameView = new GameView(bgCanvas, stairCanvas, slimeCanvas);
 
     gameView.start();
+    gameView.run();
 })

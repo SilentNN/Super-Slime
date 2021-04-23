@@ -14,9 +14,12 @@ class GameView {
         let gameOverDiv = document.getElementById('game-over');
         if (gameOverDiv) gameOverDiv.remove();
         this.game.bindKeys();
+    }
+    
+    run () {
         requestAnimationFrame(this.animate.bind(this));
     }
-
+    
     animate(time) {
         requestAnimationFrame(this.animate.bind(this));
         const timeDelta = time - this.lastTime;

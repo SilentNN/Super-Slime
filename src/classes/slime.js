@@ -3,7 +3,7 @@ const spriteSheet = require('../assets/images/slime_sprites.png');
 class Slime {
     constructor (canvas) {
         this.left = true;
-        this.stepped = 0;
+        this.upped = 0;
         this.img = new Image();
         this.img.src = spriteSheet.default;
         this.canvas = canvas;
@@ -11,7 +11,7 @@ class Slime {
     }
 
     up() {
-        this.stepped++;
+        this.upped++;
     }
 
     draw() {
@@ -20,7 +20,7 @@ class Slime {
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.drawImage(
             this.img, (7-1)*128, (2-1)*128, 128, 128,
-            (this.canvas.width-slimeSize)/2, this.canvas.height-slimeSize-(this.stepped*41*0.65), slimeSize, slimeSize
+            (this.canvas.width-slimeSize)/2, this.canvas.height-slimeSize-(this.upped*41*0.65), slimeSize, slimeSize
         )
     }
 

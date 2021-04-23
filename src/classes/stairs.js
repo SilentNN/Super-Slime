@@ -6,30 +6,30 @@ class Stair {
         this.ctx = this.canvas.getContext('2d');
         this.pos = options.pos;
         this.height = options.height;
+        
+        this.stairWidth = 76 * 0.65;
+        this.stairHeight = 41 * 0.65;
+        this.x = (this.canvas.width - this.stairWidth) / 2 + this.pos * this.stairWidth;
+        this.y = this.canvas.height - (1 + this.height) * this.stairHeight;
     }
 
-    render (width, height, sheetPosX, sheetPosY) {
-        this.ctx.mozImageSmoothingEnabled = false;
-        this.ctx.webkitImageSmoothingEnabled = false;
-        this.ctx.msImageSmoothingEnabled = false;
-        this.ctx.imageSmoothingEnabled = false;
-
+    draw (timeDelta) {
+        
         let img = new Image();
         img.src = stairSprite.default;
 
-        const stairHeight = 41 * 0.65;
-        const stairWidth = 76 * 0.65;
+        let stairDestinationX = (this.canvas.width - this.stairWidth) / 2 + this.pos * this.stairWidth;
+        let stairDestinationY = this.canvas.height - (1 + this.height) * this.stairHeight;
+
+        if (Math.abs(this.x - stairDestinationX) > 0.1) this.x = this.x + 7*((stairDestinationX - this.x) / timeDelta);
+        if (Math.abs(this.y - stairDestinationY) > 0.1) this.y = this.y + 7*((stairDestinationY - this.y) / timeDelta);
 
         this.ctx.drawImage(
-            img, 
-            // this.pos * 76,
-            // this.height * 41,
-            // 76,
-            // 41
-            (this.canvas.width - stairWidth) / 2 + this.pos * stairWidth,
-            this.canvas.height - (1 + this.height) * stairHeight,
-            stairWidth,
-            stairHeight
+            img,
+            this.x,
+            this.y,
+            this.stairWidth,
+            this.stairHeight
         );
     }
 }
