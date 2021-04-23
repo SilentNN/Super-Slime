@@ -26,7 +26,7 @@ class Game {
     step(timeDelta) {
         this.drawBg(timeDelta);
         this.drawStairs(timeDelta);
-        this.slime.draw();
+        this.slime.draw(timeDelta);
         this.score.innerHTML = this.steps;
     }
 
@@ -131,6 +131,8 @@ class Game {
         } else nextStep = 8;
 
         if ((this.stairs[nextStep].pos === -1 && movingLeft) || (!movingLeft && this.stairs[nextStep].pos === 1)) {
+            this.slime.jumping = true;
+            this.slime.frameIdx = 0;
             if (nextStep < 8) this.slime.up();
             else this.stairs = this.stairs.slice(1);
 
