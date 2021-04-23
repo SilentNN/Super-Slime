@@ -1,10 +1,12 @@
 const Game = require('./game');
 
 class GameView {
-    constructor (bgCanvas, stairCanvas, slimeCanvas) {
+    constructor (bgCanvas, stairCanvas, slimeCanvas, scoreDiv) {
         this.bgCanvas = bgCanvas;
         this.stairCanvas = stairCanvas;
         this.slimeCanvas = slimeCanvas;
+        this.scoreDiv = scoreDiv;
+
         this.highScore = 0;
         this.bindedBinds = this.gameOverBinds.bind(this);
 
@@ -13,7 +15,7 @@ class GameView {
 
     start() {
         this.lastTime = 0;
-        this.game = new Game(this.bgCanvas, this.stairCanvas, this.slimeCanvas);
+        this.game = new Game(this.bgCanvas, this.stairCanvas, this.slimeCanvas, this.scoreDiv);
         let gameOverDiv = document.getElementById('game-over');
         if (gameOverDiv) gameOverDiv.remove();
         this.game.bindKeys();

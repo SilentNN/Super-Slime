@@ -1,153 +1,73 @@
 const Slime = require('./slime');
-const Stair = require('./stairs');
 const bg = require('../assets/images/cityscape_2x.png');
+const Background = require('./background');
+const Stairs = require('./stairs');
 
 class Game {
-    constructor (bgCanvas, stairCanvas, slimeCanvas) {
+    constructor (bgCanvas, stairCanvas, slimeCanvas, scoreDiv) {
         this.bgCanvas = bgCanvas;
-        this.stairCanvas = stairCanvas;
-        this.slimeCanvas = slimeCanvas;
-        this.slimeCtx = this.slimeCanvas.getContext('2d');
-        this.stairCtx = this.stairCanvas.getContext('2d');
 
         this.steps = 0;
-        this.bgPos = 0;
-        this.bgX = (3840-this.bgCanvas.width)/2 + this.bgPos*15;
-        this.bgY = 2154-this.bgCanvas.height;
+        
         this.timer = 10000;
         this.gameOver = false;
-        this.score = document.getElementById('score');
-        this.slime = new Slime (slimeCanvas);
-
+        this.scoreDiv = scoreDiv;
+        
         this.binds = this.keybinds.bind(this);
-        this.generateStairs();
+
+        this.bg = new Background(bgCanvas);
+        this.slime = new Slime (slimeCanvas);
+        this.stairs = new Stairs(stairCanvas);
     }
 
     step(timeDelta) {
-        this.drawBg(timeDelta);
-        this.drawStairs(timeDelta);
+        this.bg.draw(timeDelta);
+        this.stairs.draw(timeDelta);
         this.slime.draw(timeDelta);
-        this.score.innerHTML = this.steps;
+        this.scoreDiv.innerHTML = this.steps;
     }
 
-    drawBg(timeDelta) {
-        let img = new Image();
-        img.src = bg.default;
-        let ctx = this.bgCanvas.getContext('2d');
-
-        // ctx.clearRect(0, 0, this.bgCanvas.width, this.bgCanvas.height);
-        let heightAdjustment = this.steps*8 - 8*8;
-        if (heightAdjustment < 0) heightAdjustment = 0;
-
-        let bgDestinationX = (3840-this.bgCanvas.width)/2 + this.bgPos*15;
-        let bgDestinationY = 2154-this.bgCanvas.height-heightAdjustment;
-
-        if (Math.abs(this.bgX - bgDestinationX) > 0.1) this.bgX = this.bgX + 3*((bgDestinationX - this.bgX) / timeDelta);
-        if (Math.abs(this.bgY - bgDestinationY) > 0.1) this.bgY = this.bgY + 3*((bgDestinationY - this.bgY) / timeDelta);
-
-        ctx.drawImage(
-            img,
-            this.bgX,
-            this.bgY,
-            this.bgCanvas.width,
-            this.bgCanvas.height,
-            0,
-            0,
-            this.bgCanvas.width,
-            this.bgCanvas.height
-        )
-    }
-
-    drawStairs(timeDelta) {
-        this.stairCtx.clearRect(0,0,this.stairCanvas.width,this.stairCanvas.height);
-        this.stairs.forEach(stair => {
-            stair.draw(timeDelta)
-        })
-    }
-
-    generateStairs() {
-        this.stairs = [];
-
-        let pos = -2;
-        let height = 1;
-
-        this.stairs.push(new Stair({
-            canvas: this.stairCanvas,
-            pos: -1,
-            height: 0
-        }))
-
-        for (let i = 0; i < 31; i++) {
-            this.stairs.push(new Stair({
-                canvas: this.stairCanvas,
-                pos: pos,
-                height: height
-            }));
-            height++;
-            if (Math.random() > 0.5) {
-                pos++;
-            } else {
-                pos--;
-            }
-        }
-    }
-
-    addNewStair() {
-        let nextPos;
-        const nextHeight = this.stairs[this.stairs.length-1].height + 1;
-        if (Math.random() > 0.5) {
-            nextPos = this.stairs[this.stairs.length-1].pos + 1;
-        } else {
-            nextPos = this.stairs[this.stairs.length-1].pos - 1;
-        }
-        this.stairs.push(new Stair({
-            canvas: this.stairCanvas,
-            pos: nextPos,
-            height: nextHeight
-        }))
-    }
-
-    move() {
+    climb() {
         if (this.slime.left) {
-            this.moveLeft(true);
+            this.climbLeft(true);
         } else {
-            this.moveLeft(false);
+            this.climbLeft(false);
         }
     }
 
     turn() {
         if (this.slime.left) {
-            this.moveLeft(false);
+            this.climbLeft(false);
         } else {
-            this.moveLeft(true);
+            this.climbLeft(true);
         }
         this.slime.left = !this.slime.left;
     }
 
-    moveLeft(movingLeft) {
+    climbLeft(climbingLeft) {
         let nextStep;
         if (this.steps < 8) {
             nextStep = this.steps;
         } else nextStep = 8;
 
-        if ((this.stairs[nextStep].pos === -1 && movingLeft) || (!movingLeft && this.stairs[nextStep].pos === 1)) {
+        if ((this.stairs.all[nextStep].pos === -1 && climbingLeft) || (!climbingLeft && this.stairs.all[nextStep].pos === 1)) {
             this.slime.jumping = true;
             this.slime.frameIdx = 0;
             if (nextStep < 8) this.slime.up();
-            else this.stairs = this.stairs.slice(1);
+            else this.stairs.all = this.stairs.all.slice(1);
 
-            this.stairs.forEach( stair => {
-                if (movingLeft) stair.pos++;
+            this.stairs.all.forEach( stair => {
+                if (climbingLeft) stair.pos++;
                 else stair.pos--;
                 if (nextStep === 8) stair.height--;
             })
 
             this.steps++;
 
-            if (movingLeft) this.bgPos--;
+            if (climbingLeft) this.bgPos--;
             else this.bgPos++;
 
-            if (nextStep === 8) this.addNewStair();
+            if (nextStep === 8) this.stairs.addNewStair();
 
         } else {
             this.gameOver = true;
@@ -159,7 +79,7 @@ class Game {
             case 74: //j
             case 75: //k
             case 39: //right arrow
-                this.move();
+                this.climb();
                 break;
             case 70: //f
             case 68: //d
