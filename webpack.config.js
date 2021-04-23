@@ -1,4 +1,5 @@
 const path = require('path');
+
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -8,7 +9,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|mp3)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -18,6 +19,7 @@ module.exports = {
                     },
                 ],
             },
+            
         ],
     },
 };

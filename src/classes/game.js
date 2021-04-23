@@ -1,5 +1,4 @@
 const Slime = require('./slime');
-const bg = require('../assets/images/cityscape_2x.png');
 const Background = require('./background');
 const Stairs = require('./stairs');
 
@@ -18,6 +17,8 @@ class Game {
         this.bg = new Background(bgCanvas);
         this.slime = new Slime (slimeCanvas);
         this.stairs = new Stairs(stairCanvas);
+
+        this.jumpSfx = document.getElementById('jump-sfx');
     }
 
     step(timeDelta) {
@@ -51,6 +52,8 @@ class Game {
         } else nextStep = 8;
 
         if ((this.stairs.all[nextStep].pos === -1 && climbingLeft) || (!climbingLeft && this.stairs.all[nextStep].pos === 1)) {
+            this.jumpSfx.fastSeek(0);
+            this.jumpSfx.play();
             this.slime.jumping = true;
             this.slime.frameIdx = 0;
             if (nextStep < 8) this.slime.up();

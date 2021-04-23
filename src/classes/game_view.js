@@ -37,6 +37,7 @@ class GameView {
     gameOverBinds(e) {
         switch (e.keyCode) {
             case 13: //enter
+                e.preventDefault();
                 this.start();
                 this.unbindGameOver();
                 break;
