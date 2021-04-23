@@ -59,3 +59,28 @@ canvas {
     background-color: rgba(0,0,0,0.7);
     padding: 20px;
 }
+
+#mute {
+    z-index: 8;
+    background-image: url('../images/ButtonsBluish-gray.png');
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    margin: 10px 307px 0 0;
+}
+
+#mute.muted {
+    background-position: 0 -192px;
+}
+
+#mute.muted:active {
+    background-position: -192px -192px;
+}
+
+#mute.unmuted {
+    background-position: -48px -192px;
+}
+
+#mute.unmuted:active {
+    background-position: -240px -192px;
+}

@@ -1,16 +1,29 @@
 const Game = require('./game');
 
 class GameView {
-    constructor (bgCanvas, stairCanvas, slimeCanvas, scoreDiv) {
-        this.bgCanvas = bgCanvas;
-        this.stairCanvas = stairCanvas;
-        this.slimeCanvas = slimeCanvas;
-        this.scoreDiv = scoreDiv;
+    constructor () {
+        this.bgCanvas = document.getElementById('bg');
+        this.stairCanvas = document.getElementById('stairs');
+        this.slimeCanvas = document.getElementById('slime');
+        this.scoreDiv = document.getElementById('score');
+        this.muteBtn = document.getElementById('mute');
+        this.bgm = document.getElementById('bgm')
 
         this.highScore = 0;
         this.bindedBinds = this.gameOverBinds.bind(this);
+        this.muteBtn.addEventListener('click', this.handleMuteBtn.bind(this));
 
-        this.bgm = document.getElementById('bgm')
+    }
+
+    handleMuteBtn() {
+        if (this.muteBtn.className === 'muted') {
+            this.bgm.play();
+            this.muteBtn.className = 'unmuted';
+        }
+        else {
+            this.bgm.pause();
+            this.muteBtn.className = 'muted';
+        }
     }
 
     start() {
@@ -42,7 +55,6 @@ class GameView {
     
     run() {
         requestAnimationFrame(this.animate.bind(this));
-        // this.bgm.play();
     }
     
     animate(time) {
