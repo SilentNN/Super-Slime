@@ -7,6 +7,8 @@ class GameView {
         this.slimeCanvas = slimeCanvas;
         this.highScore = 0;
         this.bindedBinds = this.gameOverBinds.bind(this);
+
+        this.bgm = document.getElementById('bgm')
     }
 
     start() {
@@ -38,6 +40,7 @@ class GameView {
     
     run() {
         requestAnimationFrame(this.animate.bind(this));
+        // this.bgm.play();
     }
     
     animate(time) {

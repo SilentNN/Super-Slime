@@ -9,6 +9,8 @@ class Slime {
         this.ctx = canvas.getContext('2d');
         
         this.upped = 0;
+        this.slimeSize = 102;
+        this.y = this.canvas.height-this.slimeSize+28-(this.upped*41*0.65);
 
         this.idleLeft = new Image();
         this.idleLeft.src = slime_idle_left.default;
@@ -27,10 +29,6 @@ class Slime {
 
     up() {
         this.upped++;
-    }
-
-    jump() {
-
     }
 
     nextFrame() {
@@ -63,11 +61,13 @@ class Slime {
             else img = this.idleRight;
         }
 
-        const slimeSize = 64 * 1.6;
+        let slimeDestinationY = this.canvas.height-this.slimeSize+28-(this.upped*41*0.65);
+        if (Math.abs(this.y - slimeDestinationY) > 0.1) this.y = this.y + 10 * ((slimeDestinationY - this.y) / timeDelta);
+
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.drawImage(
             img, this.frameIdx*64, 0, 64, 64,
-            (this.canvas.width-slimeSize)/2, this.canvas.height-slimeSize+28-(this.upped*41*0.65), slimeSize, slimeSize
+            (this.canvas.width-this.slimeSize)/2, this.y, this.slimeSize, this.slimeSize
         )
         this.nextFrame();
     }
