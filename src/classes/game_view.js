@@ -6,6 +6,7 @@ class GameView {
         this.stairCanvas = stairCanvas;
         this.slimeCanvas = slimeCanvas;
         this.highScore = 0;
+        this.bindedBinds = this.gameOverBinds.bind(this);
     }
 
     start() {
@@ -15,8 +16,27 @@ class GameView {
         if (gameOverDiv) gameOverDiv.remove();
         this.game.bindKeys();
     }
+
+    gameOverBinds(e) {
+        switch (e.keyCode) {
+            case 13: //enter
+                this.start();
+                this.unbindGameOver();
+                break;
+            default:
+                break;
+        }
+    }
+
+    bindGameOver() {
+        document.addEventListener('keydown', this.bindedBinds);
+    }
+
+    unbindGameOver() {
+        document.removeEventListener('keydown', this.bindedBinds);
+    }
     
-    run () {
+    run() {
         requestAnimationFrame(this.animate.bind(this));
     }
     
@@ -46,6 +66,8 @@ class GameView {
         restartBtn.setAttribute('id', 'restart');
         restartBtn.innerHTML = 'Retry';
         restartBtn.addEventListener('click', this.start.bind(this));
+        this.bindGameOver();
+        
 
         gameOverDiv.appendChild(scoreH3);
         gameOverDiv.appendChild(highScoreH3);

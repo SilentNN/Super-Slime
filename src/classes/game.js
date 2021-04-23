@@ -158,10 +158,12 @@ class Game {
         switch (e.keyCode) {
             case 74: //j
             case 75: //k
+            case 39: //right arrow
                 this.move();
                 break;
             case 70: //f
             case 68: //d
+            case 37: //left arrow
                 this.turn();
                 break;
             default:
