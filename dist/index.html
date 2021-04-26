@@ -17,9 +17,14 @@
 			id='jump-sfx' 
 			src='../src/assets/sounds/jump_retro_006_38991.mp3' 
 		></audio>
-		<button id='mute' class='muted'></button>
+		<div id="hud">
+			<button id='sfx-button' class='unmuted'></button>
+			<div id='timer-empty'></div>
+			<button id='bgm-button' class='muted'></button>
+		</div>
 		<canvas id="bg" width=375 height=812></canvas>
 		<canvas id="stairs" width=375 height=812></canvas>
+		<canvas id="timer-canvas" width=256 height=44></canvas>
 		<canvas id="slime" width=375 height=812></canvas>
 		<div id="timer"></div>
 		<div id="score">0</div>

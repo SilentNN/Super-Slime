@@ -4,31 +4,47 @@ class GameView {
     constructor () {
         this.bgCanvas = document.getElementById('bg');
         this.stairCanvas = document.getElementById('stairs');
+        this.timerCanvas = document.getElementById('timer-canvas');
         this.slimeCanvas = document.getElementById('slime');
         this.scoreDiv = document.getElementById('score');
-        this.muteBtn = document.getElementById('mute');
-        this.bgm = document.getElementById('bgm')
+        this.bgmBtn = document.getElementById('bgm-button');
+        this.bgmMusic = document.getElementById('bgm');
+        this.sfxBtn = document.getElementById('sfx-button');
 
         this.highScore = 0;
-        this.bindedBinds = this.gameOverBinds.bind(this);
-        this.muteBtn.addEventListener('click', this.handleMuteBtn.bind(this));
+        this.bindedGameOverbinds = this.gameOverBinds.bind(this);
+        this.bgmBtn.addEventListener('click', this.handleBgmBtn.bind(this));
+        this.sfxBtn.addEventListener('click', this.handleSfxBtn.bind(this));
 
     }
 
-    handleMuteBtn() {
-        if (this.muteBtn.className === 'muted') {
-            this.bgm.play();
-            this.muteBtn.className = 'unmuted';
+    handleBgmBtn() {
+        if (this.bgmBtn.className === 'muted') {
+            this.bgmMusic.play();
+            this.bgmBtn.className = 'unmuted';
         }
         else {
-            this.bgm.pause();
-            this.muteBtn.className = 'muted';
+            this.bgmMusic.pause();
+            this.bgmBtn.className = 'muted';
+        }
+    }
+
+    handleSfxBtn() {
+        if (this.sfxBtn.className === 'muted') {
+            this.sfxMuted = false;
+            this.game.sfxMuted = false;
+            this.sfxBtn.className = 'unmuted';
+        }
+        else {
+            this.sfxMuted = true;
+            this.game.sfxMuted = true;
+            this.sfxBtn.className = 'muted';
         }
     }
 
     start() {
         this.lastTime = 0;
-        this.game = new Game(this.bgCanvas, this.stairCanvas, this.slimeCanvas, this.scoreDiv);
+        this.game = new Game(this.bgCanvas, this.stairCanvas, this.slimeCanvas, this.scoreDiv, this.timerCanvas, this.sfxMuted);
         let gameOverDiv = document.getElementById('game-over');
         if (gameOverDiv) gameOverDiv.remove();
         this.game.bindKeys();
@@ -47,11 +63,11 @@ class GameView {
     }
 
     bindGameOver() {
-        document.addEventListener('keydown', this.bindedBinds);
+        document.addEventListener('keydown', this.bindedGameOverbinds);
     }
 
     unbindGameOver() {
-        document.removeEventListener('keydown', this.bindedBinds);
+        document.removeEventListener('keydown', this.bindedGameOverbinds);
     }
     
     run() {
@@ -67,16 +83,22 @@ class GameView {
     }
 
     gameOver() {
+        this.game.gameOver = false;
+        this.game.timer.started = false;
+        this.game.timer.timeout = false;
         if (this.game.steps > this.highScore) this.highScore = this.game.steps;
         this.game.unbindKeys();
 
         const gameOverDiv = document.createElement('div');
         gameOverDiv.setAttribute('id', 'game-over');
+        const gameOverH2 = document.createElement('h2');
+        gameOverH2.setAttribute('class', 'game-over');
         const scoreH3 = document.createElement('h3');
         scoreH3.setAttribute('class', 'score');
         const highScoreH3 = document.createElement('h3');
         highScoreH3.setAttribute('class', 'high-score');
 
+        gameOverH2.innerHTML = 'GAME OVER';
         scoreH3.innerHTML = '<strong>Score: </strong>'.concat(this.game.steps);
         highScoreH3.innerHTML = '<strong>High Score: </strong>'.concat(this.highScore);
 
@@ -86,7 +108,7 @@ class GameView {
         restartBtn.addEventListener('click', this.start.bind(this));
         this.bindGameOver();
         
-
+        gameOverDiv.appendChild(gameOverH2);
         gameOverDiv.appendChild(scoreH3);
         gameOverDiv.appendChild(highScoreH3);
         gameOverDiv.appendChild(restartBtn);

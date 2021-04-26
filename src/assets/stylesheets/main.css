@@ -34,53 +34,81 @@ canvas {
 }
 
 #bg {
-    z-index: 4;
+    z-index: 1;
 }
 
 #stairs {
-    z-index: 5;
+    z-index: 2;
 }
 
-#slime {
-    z-index: 6;
+#slime, #timer {
+    z-index: 3;
 }
 
 #score {
-    z-index: 6;
+    z-index: 3;
     font-size: 70px;
     -webkit-text-stroke: 1px black;
 }
 
+#timer-canvas {
+    z-index: 5;
+    margin-top: 12px;
+    margin-left: 2px;
+}
+
 #game-over {
-    z-index: 7;
+    z-index: 6;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: rgba(0,0,0,0.7);
     padding: 20px;
+    margin: 100px 0 0 0;
 }
 
-#mute {
-    z-index: 8;
-    background-image: url('../images/ButtonsBluish-gray.png');
+h2.game-over {
+    color: red;
+    font-size: 38px;
+    margin: 0 0 20px 0;
+}
+
+#hud {
+    z-index: 4;
+    font-size: 0;
     height: 48px;
-    width: 48px;
-    position: absolute;
-    margin: 10px 307px 0 0;
+    width: 375px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 12px;
 }
 
-#mute.muted {
-    background-position: 0 -192px;
+#bgm-button {
+    width: 42px;
+    height: 44px;
+    background-image: url('../images/bgm_sfx_buttons.png');
 }
 
-#mute.muted:active {
-    background-position: -192px -192px;
+#bgm-button.muted {
+    background-position: -42px 0;
 }
 
-#mute.unmuted {
-    background-position: -48px -192px;
+#sfx-button {
+    width: 44px;
+    height: 44px;
+    background-image: url('../images/bgm_sfx_buttons.png');
 }
 
-#mute.unmuted:active {
-    background-position: -240px -192px;
+#sfx-button.muted {
+    background-position: -128px 0;
+}
+
+#sfx-button.unmuted {
+    background-position: -84px 0;
+}
+
+#timer-empty {
+    background-image: url('../images/timerbar_empty.png');
+    width: 274px;
+    height: 44px;
 }

@@ -3,21 +3,20 @@ const bg = require('../assets/images/cityscape_2x.png');
 class Background {
     constructor(canvas) {
         this.canvas = canvas;
-        this.bgPos = 0;
-        this.x = (3840-this.canvas.width)/2 + this.bgPos*15;
+        this.x = (3840-this.canvas.width)/2;
         this.y = 2154-this.canvas.height;
     }
 
-    draw(timeDelta) {
+    draw(timeDelta, steps, bgPos) {
         let img = new Image();
         img.src = bg.default;
         let ctx = this.canvas.getContext('2d');
 
         // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        let heightAdjustment = this.steps*8 - 8*8;
+        let heightAdjustment = steps*8 - 8*8;
         if (heightAdjustment < 0) heightAdjustment = 0;
 
-        let destinationX = (3840-this.canvas.width)/2 + this.bgPos*15;
+        let destinationX = (3840-this.canvas.width)/2 + bgPos*15;
         let destinationY = 2154-this.canvas.height-heightAdjustment;
 
         if (Math.abs(this.x - destinationX) > 0.1) this.x = this.x + 3*((destinationX - this.x) / timeDelta);

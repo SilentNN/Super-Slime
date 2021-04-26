@@ -1,14 +1,15 @@
 const Slime = require('./slime');
 const Background = require('./background');
 const Stairs = require('./stairs');
+const Timer = require('./timer')
 
 class Game {
-    constructor (bgCanvas, stairCanvas, slimeCanvas, scoreDiv) {
+    constructor (bgCanvas, stairCanvas, slimeCanvas, scoreDiv, timerCanvas, sfxMuted) {
         this.bgCanvas = bgCanvas;
 
         this.steps = 0;
+        this.bgPos = 0;
         
-        this.timer = 10000;
         this.gameOver = false;
         this.scoreDiv = scoreDiv;
         
@@ -17,15 +18,19 @@ class Game {
         this.bg = new Background(bgCanvas);
         this.slime = new Slime (slimeCanvas);
         this.stairs = new Stairs(stairCanvas);
+        this.timer = new Timer(timerCanvas);
 
         this.jumpSfx = document.getElementById('jump-sfx');
+        this.sfxMuted = sfxMuted;
     }
 
     step(timeDelta) {
-        this.bg.draw(timeDelta);
+        this.bg.draw(timeDelta, this.steps, this.bgPos);
         this.stairs.draw(timeDelta);
         this.slime.draw(timeDelta);
+        this.timer.step(timeDelta);
         this.scoreDiv.innerHTML = this.steps;
+        if (this.timer.timeout) this.gameOver = true;
     }
 
     climb() {
@@ -49,11 +54,14 @@ class Game {
         let nextStep;
         if (this.steps < 8) {
             nextStep = this.steps;
+            if (this.steps === 0) this.timer.started = true;
         } else nextStep = 8;
 
         if ((this.stairs.all[nextStep].pos === -1 && climbingLeft) || (!climbingLeft && this.stairs.all[nextStep].pos === 1)) {
-            this.jumpSfx.fastSeek(0);
-            this.jumpSfx.play();
+            if (!this.sfxMuted) {
+                this.jumpSfx.fastSeek(0);
+                this.jumpSfx.play();
+            }
             this.slime.jumping = true;
             this.slime.frameIdx = 0;
             if (nextStep < 8) this.slime.up();
@@ -66,6 +74,7 @@ class Game {
             })
 
             this.steps++;
+            this.timer.addTime();
 
             if (climbingLeft) this.bgPos--;
             else this.bgPos++;
