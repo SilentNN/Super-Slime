@@ -17,16 +17,28 @@
 			id='jump-sfx' 
 			src='../src/assets/sounds/jump_retro_006_38991.mp3' 
 		></audio>
-		<div id="hud">
-			<button id='sfx-button' class='unmuted'></button>
-			<div id='timer-empty'></div>
-			<button id='bgm-button' class='muted'></button>
+
+		<h1>Super Slime Climbers</h1>
+
+		<ul id='splash'>
+            <li id='blurb'>Slime wants to climb and climb! ୧(๑•̀ᗝ•́)૭</li>
+            <li id='play-btn'>Play</li>
+            <li class='controls'>Press 'j' or 'k' to climb</li>
+            <li class='controls'>Press 'd' or 'f' to turn</li>
+        </ul>
+
+		<div id='game' class='hidden'>
+			<div id="hud">
+				<button id='sfx-button' class='unmuted'></button>
+				<div id='timer-empty'></div>
+				<button id='bgm-button' class='unmuted'></button>
+			</div>
+			<canvas id="bg" width=375 height=812></canvas>
+			<canvas id="stairs" width=375 height=812></canvas>
+			<canvas id="timer-canvas" width=256 height=44></canvas>
+			<canvas id="slime" width=375 height=812></canvas>
+			<div id="timer"></div>
+			<div id="score">0</div>
 		</div>
-		<canvas id="bg" width=375 height=812></canvas>
-		<canvas id="stairs" width=375 height=812></canvas>
-		<canvas id="timer-canvas" width=256 height=44></canvas>
-		<canvas id="slime" width=375 height=812></canvas>
-		<div id="timer"></div>
-		<div id="score">0</div>
 	</body>
 </html>

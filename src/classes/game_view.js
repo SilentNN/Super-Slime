@@ -72,6 +72,11 @@ class GameView {
     
     run() {
         requestAnimationFrame(this.animate.bind(this));
+        const gameDiv = document.getElementById('game');
+        gameDiv.classList.remove('hidden');
+        const splashDiv = document.getElementById('splash');
+        splashDiv.classList.add('hidden');
+        this.bgmMusic.play();
     }
     
     animate(time) {
