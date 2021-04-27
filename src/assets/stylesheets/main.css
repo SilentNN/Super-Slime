@@ -70,7 +70,7 @@ canvas {
 }
 
 h2.game-over {
-    color: red;
+    color: #CC2222;
     font-size: 38px;
     margin: 0 0 20px 0;
 }
