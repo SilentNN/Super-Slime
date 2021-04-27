@@ -52,10 +52,11 @@ class Game {
 
     climbLeft(climbingLeft) {
         let nextStep;
-        if (this.steps < 8) {
+        const centerStep = 14;
+        if (this.steps < centerStep) {
             nextStep = this.steps;
             if (this.steps === 0) this.timer.started = true;
-        } else nextStep = 8;
+        } else nextStep = centerStep;
 
         if ((this.stairs.all[nextStep].pos === -1 && climbingLeft) || (!climbingLeft && this.stairs.all[nextStep].pos === 1)) {
             if (!this.sfxMuted) {
@@ -64,13 +65,13 @@ class Game {
             }
             this.slime.jumping = true;
             this.slime.frameIdx = 0;
-            if (nextStep < 8) this.slime.up();
+            if (nextStep < centerStep) this.slime.up();
             else this.stairs.all = this.stairs.all.slice(1);
 
             this.stairs.all.forEach( stair => {
                 if (climbingLeft) stair.pos++;
                 else stair.pos--;
-                if (nextStep === 8) stair.height--;
+                if (nextStep === centerStep) stair.height--;
             })
 
             this.steps++;
@@ -79,7 +80,7 @@ class Game {
             if (climbingLeft) this.bgPos--;
             else this.bgPos++;
 
-            if (nextStep === 8) this.stairs.addNewStair();
+            if (nextStep === centerStep) this.stairs.addNewStair();
 
         } else {
             this.gameOver = true;
