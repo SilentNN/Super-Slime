@@ -75,6 +75,10 @@ h2.game-over {
     margin: 0 0 20px 0;
 }
 
+#restart {
+    margin-top: 15px;
+}
+
 #hud {
     z-index: 4;
     font-size: 0;
@@ -144,11 +148,11 @@ li {
     user-select: none;
 }
 
-#play-btn:hover {
+#play-btn:hover, button:hover {
     color: lightgray;
 }
 
-#play-btn:active {
+#play-btn:active, button:active {
     color: #15B762;
 }
 
