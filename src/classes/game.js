@@ -60,7 +60,7 @@ class Game {
 
         if ((this.stairs.all[nextStep].pos === -1 && climbingLeft) || (!climbingLeft && this.stairs.all[nextStep].pos === 1)) {
             if (!this.sfxMuted) {
-                this.jumpSfx.fastSeek(0);
+                this.jumpSfx.currentTime = 0;
                 this.jumpSfx.play();
             }
             this.slime.jumping = true;
