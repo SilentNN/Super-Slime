@@ -31,6 +31,10 @@ class Slime {
         this.upped++;
     }
 
+    die() {
+        
+    }
+
     nextFrame() {
         if (this.ticks < 1) {
             this.ticks ++;
