@@ -25,11 +25,14 @@ class Slime {
         this.jumping = false;
         this.ticks = 0;
         this.frameIdx = 0;
-        this.dead = false;
     }
 
     up() {
         this.upped++;
+    }
+
+    die() {
+        
     }
 
     nextFrame() {
