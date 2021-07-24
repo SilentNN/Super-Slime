@@ -32,7 +32,7 @@ class Slime {
     }
 
     die() {
-        
+        // start with jumping state
     }
 
     nextFrame() {
