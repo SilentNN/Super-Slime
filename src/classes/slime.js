@@ -35,7 +35,9 @@ class Slime {
         // start with jumping state
         // translate slime up and in faced direction
         // stop movement
-        
+        // make slime fall
+
+        // maybe add music?
     }
 
     nextFrame() {
