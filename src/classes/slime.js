@@ -33,6 +33,7 @@ class Slime {
 
     die() {
         // start with jumping state
+        // translate slime up and in faced direction
     }
 
     nextFrame() {
