@@ -4,11 +4,11 @@
   "description": "'you're a slime that climbs'",
   "main": "app.js",
   "dependencies": {
-    "webpack": "^4.36.1",
     "webpack-cli": "^3.3.6"
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "file-loader": "^6.2.0",
+    "webpack": "^4.36.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

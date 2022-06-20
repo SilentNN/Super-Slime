@@ -10,11 +10,12 @@ class GameView {
         this.bgmBtn = document.getElementById('bgm-button');
         this.bgmMusic = document.getElementById('bgm');
         this.sfxBtn = document.getElementById('sfx-button');
+        this.sfxSound = document.getElementById('jump-sfx');
 
         this.highScore = 0;
         this.bindedGameOverbinds = this.gameOverBinds.bind(this);
         this.bgmMusic.volume = 0.2;
-        this.sfxSound = 0.2;
+        this.sfxSound.volume = 0.2;
         this.bgmBtn.addEventListener('click', this.handleBgmBtn.bind(this));
         this.sfxBtn.addEventListener('click', this.handleSfxBtn.bind(this));
     }
